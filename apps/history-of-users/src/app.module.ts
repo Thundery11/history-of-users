@@ -6,6 +6,8 @@ import { ConfigModule } from '@nestjs/config';
 import { CreateUserUseCase } from './application/use-cases/create-user-use-case';
 import { UsersRepository } from './infrastructure/users.repository';
 import { CqrsModule } from '@nestjs/cqrs';
+import { UsersQueryRepository } from './infrastructure/users-query-repository';
+import { UpdateUserUseCase } from './application/use-cases/update-user-use-case';
 
 const { PGHOST, PGDATABASE, PGUSER, PGPASSWORD } = process.env;
 
@@ -31,6 +33,11 @@ const useCases = [CreateUserUseCase];
   ],
 
   controllers: [AppController],
-  providers: [UsersRepository, ...useCases],
+  providers: [
+    UsersRepository,
+    UsersQueryRepository,
+    UpdateUserUseCase,
+    ...useCases,
+  ],
 })
 export class AppModule {}

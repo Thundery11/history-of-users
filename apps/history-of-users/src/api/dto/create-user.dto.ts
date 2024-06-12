@@ -15,3 +15,7 @@ export class CreateUserDto {
   @IsBoolean()
   problems: boolean;
 }
+
+export class UpdateUserDto {
+  problems: boolean;
+}
