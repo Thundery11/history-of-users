@@ -16,4 +16,7 @@ export class User {
 
   @Column()
   gender: string;
+
+  @Column()
+  problems: boolean;
 }
