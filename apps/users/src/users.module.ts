@@ -9,6 +9,8 @@ import { HistoryController } from './api/history.controller';
 import { HistoryRepository } from './infrastructure/history.repository';
 import { WhenUpdatedUserHistoryUseCase } from './application/use-cases/when-updated-user-use-case';
 import { GetHistoryUseCase } from './application/use-cases/get-history-use-case';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 const { PGHOST, PGUSER, PGPASSWORD, PGDATABASE } = process.env;
 
@@ -30,6 +32,10 @@ const useCases = [
 ];
 @Module({
   imports: [
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'swagger-static'),
+      serveRoot: process.env.NODE_ENV === 'development' ? '/' : '/swagger',
+    }),
     TypeOrmModule.forRoot(options),
     TypeOrmModule.forFeature([HistoryOfUsers]),
     ConfigModule.forRoot(),

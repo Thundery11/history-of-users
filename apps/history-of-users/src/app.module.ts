@@ -9,6 +9,8 @@ import { CqrsModule } from '@nestjs/cqrs';
 import { UsersQueryRepository } from './infrastructure/users-query-repository';
 import { UpdateUserUseCase } from './application/use-cases/update-user-use-case';
 import { ClientsModule, Transport } from '@nestjs/microservices';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 const { PGHOST, PGDATABASE, PGUSER, PGPASSWORD } = process.env;
 
@@ -27,6 +29,10 @@ export const options: TypeOrmModuleOptions = {
 const useCases = [CreateUserUseCase];
 @Module({
   imports: [
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'swagger-static'),
+      serveRoot: process.env.NODE_ENV === 'development' ? '/' : '/swagger',
+    }),
     TypeOrmModule.forRoot(options),
     TypeOrmModule.forFeature([User]),
     ConfigModule.forRoot(),

@@ -20,12 +20,14 @@
     "test:e2e": "jest --config ./apps/history-of-users/test/jest-e2e.json"
   },
   "dependencies": {
+    "@fastify/static": "^7.0.4",
     "@nestjs/common": "^10.3.9",
     "@nestjs/config": "^3.2.2",
     "@nestjs/core": "^10.3.9",
     "@nestjs/cqrs": "^10.2.7",
     "@nestjs/microservices": "^10.3.9",
     "@nestjs/platform-express": "^10.3.9",
+    "@nestjs/serve-static": "^4.0.2",
     "@nestjs/swagger": "^7.3.1",
     "@nestjs/typeorm": "^10.0.2",
     "@types/cookie-parser": "^1.4.7",
