@@ -1,10 +1,13 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './users.controller';
 import { UsersService } from './users.service';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { CqrsModule } from '@nestjs/cqrs';
 import { ClientsModule, Transport } from '@nestjs/microservices';
+import { HistoryOfUsers } from './domain/history.entity';
+import { UpdateHistoryOfUsersUseCase } from './application/use-cases/update-history-of-users';
+import { HistoryController } from './api/history.controller';
+import { HistoryRepository } from './infrastructure/history.repository';
 
 const { PGHOST, PGUSER, PGPASSWORD, PGDATABASEFORACTIONS } = process.env;
 
@@ -19,10 +22,11 @@ export const options: TypeOrmModuleOptions = {
   synchronize: true,
   ssl: true,
 };
-
+const useCases = [UpdateHistoryOfUsersUseCase];
 @Module({
   imports: [
     TypeOrmModule.forRoot(options),
+    TypeOrmModule.forFeature([HistoryOfUsers]),
     ConfigModule.forRoot(),
     CqrsModule,
     ClientsModule.register([
@@ -39,7 +43,7 @@ export const options: TypeOrmModuleOptions = {
       },
     ]),
   ],
-  controllers: [AppController],
-  providers: [UsersService],
+  controllers: [HistoryController],
+  providers: [UsersService, HistoryRepository, ...useCases],
 })
 export class UsersModule {}
