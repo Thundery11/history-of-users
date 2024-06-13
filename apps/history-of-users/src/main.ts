@@ -2,7 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { Transport } from '@nestjs/microservices';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { writeFileSync, createWriteStream } from 'fs';
+import { createWriteStream } from 'fs';
 import { get } from 'http';
 
 async function bootstrap() {
