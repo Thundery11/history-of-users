@@ -9,12 +9,12 @@ import { UpdateHistoryOfUsersUseCase } from './application/use-cases/update-hist
 import { HistoryController } from './api/history.controller';
 import { HistoryRepository } from './infrastructure/history.repository';
 
-const { PGHOST, PGUSER, PGPASSWORD, PGDATABASEFORACTIONS } = process.env;
+const { PGHOST, PGUSER, PGPASSWORD, PGDATABASE } = process.env;
 
 export const options: TypeOrmModuleOptions = {
   type: 'postgres',
   host: PGHOST,
-  database: PGDATABASEFORACTIONS,
+  database: PGDATABASE,
   username: PGUSER,
   password: PGPASSWORD,
   port: 5432,

@@ -20,6 +20,10 @@ export class HistoryController {
     const history = await this.commandBus.execute(
       new UpdateHistoryOfUsersCommand(data),
     );
+    console.log(
+      '🚀 ~ HistoryController ~ handleUserCreated ~ history:',
+      history,
+    );
     // console.log(history);
   }
 }

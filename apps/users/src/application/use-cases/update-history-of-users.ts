@@ -12,10 +12,12 @@ export class UpdateHistoryOfUsersUseCase
   constructor(private historyRepository: HistoryRepository) {}
   async execute(command: UpdateHistoryOfUsersCommand): Promise<any> {
     const history = new HistoryOfUsers();
-    console.log('🚀 ~ execute ~ history:', history);
+
     history.addedAt = new Date().toISOString();
     history.action = command.data.action;
     history.userId = command.data.userId;
+    console.log('🚀 ~ execute ~ history:', history);
+
     return await this.historyRepository.save(history);
   }
 }
