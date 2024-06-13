@@ -1,16 +1,10 @@
 import { NestFactory } from '@nestjs/core';
 import { UsersModule } from './users.module';
 import { Transport } from '@nestjs/microservices';
-
-// const { NestFactory } = require('@nestjs/core');
-// const { MicroserviceOptions, Transport } = require('@nestjs/microservices');
-// const { AppModule } = require('./app.module');
-// const { ConfigService } = require('@nestjs/config');
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(UsersModule);
-
-  // const configService = app.get(ConfigService);
 
   const microserviceOptions = {
     transport: Transport.RMQ,
@@ -22,6 +16,15 @@ async function bootstrap() {
       },
     },
   };
+  const config = new DocumentBuilder()
+    .setTitle('History of users')
+    .setDescription('The history of users API description')
+    .setVersion('1.0')
+    .addTag('history of users')
+    .build();
+  const document = SwaggerModule.createDocument(app, config);
+
+  SwaggerModule.setup('api', app, document);
 
   app.connectMicroservice(microserviceOptions);
 

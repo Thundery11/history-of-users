@@ -5,12 +5,19 @@ import { UpdateHistoryOfUsersCommand } from '../application/use-cases/update-his
 import { WhenUpdatedUserHistoryCommand } from '../application/use-cases/when-updated-user-use-case';
 import { SortingQueryParams } from './dto/query-for-sorting';
 import { GetHistoryCommand } from '../application/use-cases/get-history-use-case';
-
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
+@ApiTags('History of users')
 @Controller('history')
 export class HistoryController {
   constructor(private commandBus: CommandBus) {}
 
   @Get()
+  @Get()
+  @ApiResponse({
+    status: 200,
+    description: 'All Users returned',
+  })
+  @ApiResponse({ status: 404, description: 'Not Found' })
   async getHistory(@Query() sortingParams: SortingQueryParams) {
     const history = await this.commandBus.execute(
       new GetHistoryCommand(sortingParams),
