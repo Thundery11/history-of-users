@@ -1,5 +1,4 @@
 import { Module } from '@nestjs/common';
-import { UsersService } from './users.service';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { CqrsModule } from '@nestjs/cqrs';
@@ -8,6 +7,8 @@ import { HistoryOfUsers } from './domain/history.entity';
 import { UpdateHistoryOfUsersUseCase } from './application/use-cases/update-history-of-users';
 import { HistoryController } from './api/history.controller';
 import { HistoryRepository } from './infrastructure/history.repository';
+import { WhenUpdatedUserHistoryUseCase } from './application/use-cases/when-updated-user-use-case';
+import { GetHistoryUseCase } from './application/use-cases/get-history-use-case';
 
 const { PGHOST, PGUSER, PGPASSWORD, PGDATABASE } = process.env;
 
@@ -22,7 +23,11 @@ export const options: TypeOrmModuleOptions = {
   synchronize: true,
   ssl: true,
 };
-const useCases = [UpdateHistoryOfUsersUseCase];
+const useCases = [
+  UpdateHistoryOfUsersUseCase,
+  WhenUpdatedUserHistoryUseCase,
+  GetHistoryUseCase,
+];
 @Module({
   imports: [
     TypeOrmModule.forRoot(options),
@@ -44,6 +49,6 @@ const useCases = [UpdateHistoryOfUsersUseCase];
     ]),
   ],
   controllers: [HistoryController],
-  providers: [UsersService, HistoryRepository, ...useCases],
+  providers: [HistoryRepository, ...useCases],
 })
 export class UsersModule {}

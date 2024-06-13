@@ -1,33 +1,33 @@
-import { Controller, Get } from '@nestjs/common';
-import { UsersService } from '../users.service';
+import { Controller, Get, Query } from '@nestjs/common';
 import { EventPattern } from '@nestjs/microservices';
 import { CommandBus } from '@nestjs/cqrs';
 import { UpdateHistoryOfUsersCommand } from '../application/use-cases/update-history-of-users';
+import { WhenUpdatedUserHistoryCommand } from '../application/use-cases/when-updated-user-use-case';
+import { SortingQueryParams } from './dto/query-for-sorting';
+import { GetHistoryCommand } from '../application/use-cases/get-history-use-case';
 
-@Controller()
+@Controller('history')
 export class HistoryController {
-  constructor(
-    private usersService: UsersService,
-    private commandBus: CommandBus,
-  ) {}
+  constructor(private commandBus: CommandBus) {}
 
-  // @Get()
-  // getHello() {
-  //   return this.usersService.getHello();
-  // }
+  @Get()
+  async getHistory(@Query() sortingParams: SortingQueryParams) {
+    const history = await this.commandBus.execute(
+      new GetHistoryCommand(sortingParams),
+    );
+    return history;
+  }
+
   @EventPattern('user_created')
   async handleUserCreated(data) {
     const history = await this.commandBus.execute(
       new UpdateHistoryOfUsersCommand(data),
     );
-    console.log(
-      '🚀 ~ HistoryController ~ handleUserCreated ~ history:',
-      history,
+  }
+  @EventPattern('user_updated')
+  async handleUserUpdated(data) {
+    const history = await this.commandBus.execute(
+      new WhenUpdatedUserHistoryCommand(data),
     );
-    // console.log(history);
   }
 }
-// {
-//   userId: data.userId,
-//   action: data.action,
-// }
