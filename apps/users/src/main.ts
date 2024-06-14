@@ -4,7 +4,6 @@ import { Transport } from '@nestjs/microservices';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { writeFileSync, createWriteStream } from 'fs';
 import { get } from 'http';
-import { appSettings } from '../settings/app-settings';
 
 async function bootstrap() {
   const app = await NestFactory.create(UsersModule);
@@ -29,7 +28,6 @@ async function bootstrap() {
 
   SwaggerModule.setup('swagger', app, document);
 
-  appSettings(app);
   app.connectMicroservice(microserviceOptions);
 
   await app.startAllMicroservices();
