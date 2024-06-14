@@ -1,40 +1,25 @@
 import { NestFactory } from '@nestjs/core';
-import { UsersModule } from './users.module';
-import { Transport } from '@nestjs/microservices';
+import { UsersManagmentModule } from './users-managment.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { writeFileSync, createWriteStream } from 'fs';
 import { get } from 'http';
-import { appSettings } from '../settings/app-settings';
+import { createWriteStream } from 'fs';
+import { appSettings } from './settings/app-settings';
 
 async function bootstrap() {
-  const app = await NestFactory.create(UsersModule);
-
-  const microserviceOptions = {
-    transport: Transport.RMQ,
-    options: {
-      urls: ['amqp://localhost:5672'],
-      queue: 'history_queue',
-      queueOptions: {
-        durable: true,
-      },
-    },
-  };
+  const app = await NestFactory.create(UsersManagmentModule);
   const config = new DocumentBuilder()
-    .setTitle('History of users')
-    .setDescription('The history of users API description')
+    .setTitle('Users-managment')
+    .setDescription('The users-managment API description')
     .setVersion('1.0')
-    .addTag('history of users')
+    .addTag('users-managment')
     .build();
   const document = SwaggerModule.createDocument(app, config);
-
   SwaggerModule.setup('swagger', app, document);
-
   appSettings(app);
-  app.connectMicroservice(microserviceOptions);
-
-  await app.startAllMicroservices();
-  await app.listen(3001);
-  const serverUrl = 'http://localhost:3001';
+  const port = 3003;
+  await app.listen(port);
+  console.log('app listening on port 3003');
+  const serverUrl = 'http://localhost:3003';
   // get the swagger json file (if app is running in development mode)
   if (process.env.NODE_ENV === 'development') {
     // write swagger ui files
@@ -71,7 +56,6 @@ async function bootstrap() {
       );
     });
   }
-  console.log('User Actions History Service is listening on port 3001');
+  console.log('User Service is listening on port 3000');
 }
-
 bootstrap();

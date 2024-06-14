@@ -28,13 +28,13 @@
         "tsConfigPath": "apps/users/tsconfig.app.json"
       }
     },
-    "user-management": {
+    "users-managment": {
       "type": "application",
-      "root": "apps/user-management",
+      "root": "apps/users-managment",
       "entryFile": "main",
-      "sourceRoot": "apps/user-management/src",
+      "sourceRoot": "apps/users-managment/src",
       "compilerOptions": {
-        "tsConfigPath": "apps/user-management/tsconfig.app.json"
+        "tsConfigPath": "apps/users-managment/tsconfig.app.json"
       }
     }
   }

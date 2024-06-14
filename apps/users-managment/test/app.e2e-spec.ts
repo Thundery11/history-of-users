@@ -1,14 +1,14 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
-import { UserManagementModule } from './../src/user-management.module';
+import { UsersManagmentModule } from './../src/users-managment.module';
 
-describe('UserManagementController (e2e)', () => {
+describe('UsersManagmentController (e2e)', () => {
   let app: INestApplication;
 
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [UserManagementModule],
+      imports: [UsersManagmentModule],
     }).compile();
 
     app = moduleFixture.createNestApplication();
