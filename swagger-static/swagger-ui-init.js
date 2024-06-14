@@ -11,43 +11,35 @@ window.onload = function() {
   "swaggerDoc": {
     "openapi": "3.0.0",
     "paths": {
-      "/history": {
-        "get": {
-          "operationId": "HistoryController_getHistory",
-          "parameters": [
-            {
-              "name": "sortBy",
-              "required": false,
-              "in": "query",
-              "schema": {
-                "type": "string"
-              }
-            },
-            {
-              "name": "sortDirection",
-              "required": false,
-              "in": "query",
-              "schema": {
-                "type": "string"
-              }
-            },
-            {
-              "name": "pageNumber",
-              "required": false,
-              "in": "query",
-              "schema": {
-                "type": "number"
-              }
-            },
-            {
-              "name": "pageSize",
-              "required": false,
-              "in": "query",
-              "schema": {
-                "type": "number"
+      "/users": {
+        "post": {
+          "operationId": "AppController_createUser",
+          "parameters": [],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateUserDto"
+                }
               }
             }
-          ],
+          },
+          "responses": {
+            "201": {
+              "description": "The user has been successfully created."
+            },
+            "400": {
+              "description": "Bad Request"
+            }
+          },
+          "tags": [
+            "Users"
+          ]
+        },
+        "get": {
+          "operationId": "AppController_getUsers",
+          "parameters": [],
           "responses": {
             "200": {
               "description": "All Users returned"
@@ -57,26 +49,103 @@ window.onload = function() {
             }
           },
           "tags": [
-            "History of users"
+            "Users"
+          ]
+        }
+      },
+      "/users/{id}": {
+        "put": {
+          "operationId": "AppController_updateUser",
+          "parameters": [
+            {
+              "name": "id",
+              "required": true,
+              "in": "path",
+              "schema": {
+                "type": "number"
+              }
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateUserDto"
+                }
+              }
+            }
+          },
+          "responses": {
+            "204": {
+              "description": "The user has been successfully updated."
+            },
+            "404": {
+              "description": "Not Found"
+            }
+          },
+          "tags": [
+            "Users"
           ]
         }
       }
     },
     "info": {
-      "title": "History of users",
-      "description": "The history of users API description",
+      "title": "Users",
+      "description": "The users API description",
       "version": "1.0",
       "contact": {}
     },
     "tags": [
       {
-        "name": "history of users",
+        "name": "users",
         "description": ""
       }
     ],
     "servers": [],
     "components": {
-      "schemas": {}
+      "schemas": {
+        "CreateUserDto": {
+          "type": "object",
+          "properties": {
+            "firstName": {
+              "type": "string"
+            },
+            "lastName": {
+              "type": "string"
+            },
+            "age": {
+              "type": "number",
+              "description": "The age of a user",
+              "minimum": 10
+            },
+            "gender": {
+              "type": "string"
+            },
+            "problems": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "firstName",
+            "lastName",
+            "age",
+            "gender",
+            "problems"
+          ]
+        },
+        "UpdateUserDto": {
+          "type": "object",
+          "properties": {
+            "problems": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "problems"
+          ]
+        }
+      }
     }
   },
   "customOptions": {}
