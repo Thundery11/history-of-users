@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
-import { UsersManagmentController } from './users-managment.controller';
 import { UsersManagmentService } from './users-managment.service';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { CqrsModule } from '@nestjs/cqrs';
 import { UsersManagment } from './domain/users-managment-entity';
+import { UsersManagmentController } from './api/users.managment.controller';
 const { PGHOST, PGDATABASE, PGUSER, PGPASSWORD } = process.env;
 
 export const options: TypeOrmModuleOptions = {

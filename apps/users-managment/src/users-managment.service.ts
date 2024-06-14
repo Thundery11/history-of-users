@@ -9,19 +9,14 @@ export class UsersManagmentService {
     @InjectRepository(UsersManagment)
     private usersRepo: Repository<UsersManagment>,
   ) {}
-  getHello(): string {
-    return 'Hello World!';
-  }
-  async addUsers() {
-    for (let i = 0; i < 1000000; i++) {
-      const user = new UsersManagment();
-      user.firstName = `FirstName${i}`;
-      user.lastName = `LastName${i}`;
-      user.age = Math.floor(Math.random() * 60) + 18;
-      user.gender = i % 2 === 0 ? 'male' : 'female';
-      user.problems = Math.random() > 0.5;
+  async fixUserProblems() {
+    const usersWithProblems = await this.usersRepo.find({
+      where: { problems: true },
+    });
+    const count = usersWithProblems.length;
 
-      const useradded = await this.usersRepo.save(user);
-    }
+    await this.usersRepo.update({ problems: true }, { problems: false });
+
+    return count;
   }
 }
