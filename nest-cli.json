@@ -27,6 +27,15 @@
       "compilerOptions": {
         "tsConfigPath": "apps/users/tsconfig.app.json"
       }
+    },
+    "users-managment": {
+      "type": "application",
+      "root": "apps/users-managment",
+      "entryFile": "main",
+      "sourceRoot": "apps/users-managment/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/users-managment/tsconfig.app.json"
+      }
     }
   }
 }

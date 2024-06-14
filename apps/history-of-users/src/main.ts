@@ -28,9 +28,9 @@ async function bootstrap() {
   SwaggerModule.setup('swagger', app, document);
 
   app.connectMicroservice(microserviceOptions);
-
+  const port = 3000;
   await app.startAllMicroservices();
-  await app.listen(3000);
+  await app.listen(port);
   const serverUrl = 'http://localhost:3000';
   // get the swagger json file (if app is running in development mode)
   if (process.env.NODE_ENV === 'development') {
